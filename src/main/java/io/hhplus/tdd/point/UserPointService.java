@@ -24,4 +24,13 @@ public class UserPointService {
     }
     userPointTable.insertOrUpdate(id, currentBalance - userAmount);
   };
+
+  public void isPointValid(Long amount) {
+    if (amount == null) {
+      throw new IllegalArgumentException("Point value cannot be null.");
+    }
+    if (amount < 0) {
+      throw new IllegalArgumentException("Point value cannot be negative.");
+    }
+  }
 }
