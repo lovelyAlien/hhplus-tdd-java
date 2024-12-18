@@ -36,6 +36,20 @@ public class PointServiceTest {
     assertThrows(Exception.class, () -> {
       userPointService.chargePointById(userId, chargeAmount);
     });
+  }
 
+  @Test
+  void 포인트_한도_초과() {
+    // given
+    Long userId = 1L;
+    Long currentBalance = 100_000L;
+    Long useAmount = 200_000L;
+    // then
+    when(userPointTable.selectById(userId))
+      .thenReturn(new UserPoint(userId, currentBalance, System.currentTimeMillis()));
+    // when
+    assertThrows(Exception.class, () -> {
+      userPointService.usePointById(userId, useAmount);
+    });
   }
 }
