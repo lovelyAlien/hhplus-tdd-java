@@ -52,4 +52,22 @@ public class PointServiceTest {
       userPointService.usePointById(userId, useAmount);
     });
   }
+
+  @Test
+  void 사용_또는_충전_포인트_NULL() {
+    // given
+    Long amount = null;
+    assertThrows(IllegalArgumentException.class, () -> {
+      userPointService.isPointValid(amount);
+    });
+  }
+
+  @Test
+  void 사용_또는_충전_포인트_음수() {
+    // given
+    Long amount = -100_000L;
+    assertThrows(IllegalArgumentException.class, () -> {
+      userPointService.isPointValid(amount);
+    });
+  }
 }
