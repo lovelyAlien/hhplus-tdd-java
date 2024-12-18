@@ -14,6 +14,7 @@ public class UserPointService {
     if(currentBalance + chargeAmount > 1_000_000L) {
       throw new Exception("최대 잔고 초과");
     }
+    userPointTable.insertOrUpdate(id, currentBalance + chargeAmount);
   };
   public void usePointById(Long id, Long userAmount) throws Exception {
     UserPoint userPoint = userPointTable.selectById(id);
