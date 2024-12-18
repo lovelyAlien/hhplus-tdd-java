@@ -8,5 +8,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PointHistoryService {
   private final PointHistoryTable pointHistoryTable;
-  public void addPointTransaction(Long id, Long point) {};
+
+  public void recordTransactionHistory(Long id, Long amount, TransactionType type) {
+    pointHistoryTable.insert(id, amount, type, System.currentTimeMillis());
+  };
 }
