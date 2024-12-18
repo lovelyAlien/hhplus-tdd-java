@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 public class UserPointService {
   private final UserPointTable userPointTable;
   public void chargePointById(Long id, Long chargeAmount) throws Exception {
+    isPointValid(chargeAmount);
     UserPoint userPoint = userPointTable.selectById(id);
     Long currentBalance = userPoint.point();
     if(currentBalance + chargeAmount > 1_000_000L) {
@@ -17,6 +18,7 @@ public class UserPointService {
     userPointTable.insertOrUpdate(id, currentBalance + chargeAmount);
   };
   public void usePointById(Long id, Long userAmount) throws Exception {
+    isPointValid(userAmount);
     UserPoint userPoint = userPointTable.selectById(id);
     Long currentBalance = userPoint.point();
     if(userAmount > currentBalance) {
