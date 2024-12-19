@@ -35,9 +35,8 @@ ReentrantLock lock = new ReentrantLock(true); // 공정 모드
 - 공정 모드에서는 락을 대기하는 스레드가 FIFO 순서로 락을 획득한다.
 
 ### synchronized와 비교
-ReentrantLock는 기본적으로 공정성을 보장하지만 synchronized는 보장하지 않는다.
-- JVM 및 운영 체제 스케줄러에 의해 락 획득 순서가 결정 된다.
-- 락을 요청한 순서를 고려하지 않아 특정 스레드가 자주 락을 획득하거나 기아 상태에 빠질 수 있다.
+synchronized는 JVM이 제공하는 기본 락 메커니즘으로, 락 획득 순서는 JVM 및 운영 체제 스케줄러에 의해 결정된다(공정성 X). 
+따라서 락 요청 순서를 보장하지 않아 특정 스레드가 자주 락을 획득하거나, 기아 상태가 발생할 수 있습니다.
 ```java
 // synchronized 버전
 public class SynchronizedExample {
