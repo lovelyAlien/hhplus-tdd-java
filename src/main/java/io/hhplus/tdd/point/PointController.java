@@ -43,7 +43,7 @@ public class PointController {
     public UserPoint charge(
             @PathVariable long id,
             @RequestBody long amount
-    ) throws Exception {
+    ) {
         return pointFacade.charge(id, amount);
     }
 
@@ -54,7 +54,16 @@ public class PointController {
     public UserPoint use(
             @PathVariable long id,
             @RequestBody long amount
-    ) throws Exception {
+    ) {
         return pointFacade.use(id, amount);
+    }
+
+    /**
+     * TODO - 특정 유저의 포인트를 사용하는 기능을 작성해주세요.
+     */
+    @GetMapping("{id}/use")
+    public UserPoint use(
+    ) {
+        return pointFacade.use(1L, 10L);
     }
 }

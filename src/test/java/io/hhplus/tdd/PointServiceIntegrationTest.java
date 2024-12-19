@@ -109,14 +109,14 @@ public class PointServiceIntegrationTest {
     CountDownLatch latch = new CountDownLatch(chargeCount + useCount);
     for(int i = 0; i<chargeCount; i++) {
       executorService.execute(() -> {
-        UserPoint userPoint = userPointService.chargePointById(userId, chargeAmount);
+        UserPoint userPoint = pointFacade.charge(userId, chargeAmount);
         latch.countDown();
       });
     }
 
     for(int i = 0; i<useCount; i++) {
       executorService.execute(() -> {
-        UserPoint userPoint = userPointService.usePointById(userId, useAmount);
+        UserPoint userPoint = pointFacade.use(userId, useAmount);
         latch.countDown();
       });
     }

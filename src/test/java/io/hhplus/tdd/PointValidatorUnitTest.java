@@ -1,5 +1,6 @@
 package io.hhplus.tdd;
 
+import io.hhplus.tdd.point.CustomException;
 import io.hhplus.tdd.point.PointValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ public class PointValidatorUnitTest {
   void 사용_또는_충전_포인트_NULL() {
     // given
     Long amount = null;
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(CustomException.class, () -> {
       pointValidator.validateAmount(amount);
     });
   }
@@ -30,7 +31,7 @@ public class PointValidatorUnitTest {
   void 사용_또는_충전_포인트_음수() {
     // given
     Long amount = -100_000L;
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(CustomException.class, () -> {
       pointValidator.validateAmount(amount);
     });
   }

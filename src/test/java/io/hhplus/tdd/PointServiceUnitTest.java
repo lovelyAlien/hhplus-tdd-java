@@ -1,6 +1,7 @@
 package io.hhplus.tdd;
 
 import io.hhplus.tdd.database.UserPointTable;
+import io.hhplus.tdd.point.CustomException;
 import io.hhplus.tdd.point.PointValidator;
 import io.hhplus.tdd.point.UserPointService;
 import io.hhplus.tdd.point.UserPoint;
@@ -39,13 +40,13 @@ public class PointServiceUnitTest {
     when(userPointTable.selectById(userId))
       .thenReturn(new UserPoint(userId, currentBalance, System.currentTimeMillis()));
     // then
-    assertThrows(RuntimeException.class, () -> {
+    assertThrows(CustomException.class, () -> {
       userPointService.chargePointById(userId, chargeAmount);
     });
   }
 
   @Test
-  @DisplayName("포인트 사용 한도 초과 시 예외 발생")
+  @DisplayName("포인트 사용 잔고 부족 시 예외 발생")
   void 포인트_사용_잔고_부족() {
     // given
     Long userId = 1L;
@@ -55,7 +56,7 @@ public class PointServiceUnitTest {
     when(userPointTable.selectById(userId))
       .thenReturn(new UserPoint(userId, currentBalance, System.currentTimeMillis()));
     // when
-    assertThrows(RuntimeException.class, () -> {
+    assertThrows(CustomException.class, () -> {
       userPointService.usePointById(userId, useAmount);
     });
   }
