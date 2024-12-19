@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserPointService {
   private final UserPointTable userPointTable;
-  public void chargePointById(Long id, Long chargeAmount) throws Exception {
+  public UserPoint chargePointById(Long id, Long chargeAmount) throws Exception {
     isPointValid(chargeAmount);
     UserPoint userPoint = userPointTable.selectById(id);
     Long currentBalance = userPoint.point();
@@ -16,8 +16,9 @@ public class UserPointService {
       throw new Exception("최대 잔고 초과");
     }
     userPointTable.insertOrUpdate(id, currentBalance + chargeAmount);
+    return userPoint;
   };
-  public void usePointById(Long id, Long userAmount) throws Exception {
+  public UserPoint usePointById(Long id, Long userAmount) throws Exception {
     isPointValid(userAmount);
     UserPoint userPoint = userPointTable.selectById(id);
     Long currentBalance = userPoint.point();
@@ -25,6 +26,7 @@ public class UserPointService {
       throw new Exception("한도 초과");
     }
     userPointTable.insertOrUpdate(id, currentBalance - userAmount);
+    return userPoint;
   };
 
   public UserPoint getUserPoint(Long id) {
