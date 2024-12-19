@@ -12,6 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
 @RequiredArgsConstructor
 public class UserPointService {
   private final UserPointTable userPointTable;
+  private final PointValidator pointValidator;
   private final Map<Long, ReentrantLock> locks = new ConcurrentHashMap<>();
 
   private ReentrantLock getLock(Long id) {
@@ -22,12 +23,10 @@ public class UserPointService {
     ReentrantLock lock = getLock(id);
     lock.lock();
     try {
-      isPointValid(chargeAmount);
+      pointValidator.validateAmount(chargeAmount);
       UserPoint userPoint = userPointTable.selectById(id);
       Long currentBalance = userPoint.point();
-      if(currentBalance + chargeAmount > 1_000_000L) {
-        throw new Exception("최대 잔고 초과");
-      }
+      pointValidator.validateChargePoint(userPoint, chargeAmount);
       userPointTable.insertOrUpdate(id, currentBalance + chargeAmount);
       return userPoint;
     } finally {
@@ -38,12 +37,10 @@ public class UserPointService {
     ReentrantLock lock = getLock(id);
     lock.lock();
     try {
-      isPointValid(userAmount);
+      pointValidator.validateAmount(userAmount);
       UserPoint userPoint = userPointTable.selectById(id);
       Long currentBalance = userPoint.point();
-      if(userAmount > currentBalance) {
-        throw new Exception("한도 초과");
-      }
+      pointValidator.validateUsePoint(userPoint, userAmount);
       userPointTable.insertOrUpdate(id, currentBalance - userAmount);
       return userPoint;
     } finally {
@@ -53,14 +50,5 @@ public class UserPointService {
 
   public UserPoint getUserPoint(Long id) {
     return userPointTable.selectById(id);
-  }
-
-  public void isPointValid(Long amount) {
-    if (amount == null) {
-      throw new IllegalArgumentException("Point value cannot be null.");
-    }
-    if (amount < 0) {
-      throw new IllegalArgumentException("Point value cannot be negative.");
-    }
   }
 }
