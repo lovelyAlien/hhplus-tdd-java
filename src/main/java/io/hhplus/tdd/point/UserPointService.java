@@ -27,6 +27,10 @@ public class UserPointService {
     userPointTable.insertOrUpdate(id, currentBalance - userAmount);
   };
 
+  public UserPoint getUserPoint(Long id) {
+    return userPointTable.selectById(id);
+  }
+
   public void isPointValid(Long amount) {
     if (amount == null) {
       throw new IllegalArgumentException("Point value cannot be null.");
