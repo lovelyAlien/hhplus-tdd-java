@@ -19,7 +19,7 @@ public class UserPointService {
     return locks.computeIfAbsent(id, k -> new ReentrantLock());
   }
 
-  public UserPoint chargePointById(Long id, Long chargeAmount) throws Exception {
+  public UserPoint chargePointById(Long id, Long chargeAmount) {
     ReentrantLock lock = getLock(id);
     lock.lock();
     try {
@@ -33,7 +33,7 @@ public class UserPointService {
       lock.unlock();
     }
   };
-  public UserPoint usePointById(Long id, Long userAmount) throws Exception {
+  public UserPoint usePointById(Long id, Long userAmount) {
     ReentrantLock lock = getLock(id);
     lock.lock();
     try {
