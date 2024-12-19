@@ -39,7 +39,7 @@ public class PointServiceTest {
   }
 
   @Test
-  void 포인트_한도_초과() {
+  void 포인트_사용_잔고_부족() {
     // given
     Long userId = 1L;
     Long currentBalance = 100_000L;
