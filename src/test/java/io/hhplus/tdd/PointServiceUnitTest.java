@@ -4,6 +4,7 @@ import io.hhplus.tdd.database.UserPointTable;
 import io.hhplus.tdd.point.PointValidator;
 import io.hhplus.tdd.point.UserPointService;
 import io.hhplus.tdd.point.UserPoint;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,6 +29,7 @@ public class PointServiceUnitTest {
 
 
   @Test
+  @DisplayName("포인트 충전 최대 잔고 초과 시 예외 발생")
   void 포인트_충전_최대_잔고_초과() {
     // given
     Long userId = 1L;
@@ -43,6 +45,7 @@ public class PointServiceUnitTest {
   }
 
   @Test
+  @DisplayName("포인트 사용 한도 초과 시 예외 발생")
   void 포인트_사용_잔고_부족() {
     // given
     Long userId = 1L;
